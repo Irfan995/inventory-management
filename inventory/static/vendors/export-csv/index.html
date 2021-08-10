@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="CoffeeCup HTML Editor (www.coffeecup.com)">
+    <meta name="dcterms.created" content="Wed, 12 Jun 2019 03:20:44 GMT">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>HTML Table to Excel jQuery Example</title>
+	<!-- Font Awesome 4-->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <style>
+body{
+  font-family: Arial, 'Sans-serif';
+  background: #f2f2f2;
+ }	
+	
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th, .export-btn {
+  background-color: #81BD5D;
+  color: #fff;
+}
+.export-btn{
+  padding: 10px 16px;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  border-radius: 4px;
+  margin: 10px auto;
+  cursor: pointer;
+  
+ }
+.export-btn:hover{
+  opacity: 0.9;
+
+ }
+ main{
+  background: #fff;
+  }
+ 
+ h1{
+  text-align:center;
+  color: #313131;
+  font-size: 24px;
+ 
+  }
+
+@media only screen and (min-width: 720px){
+   main{
+     width: 600px;
+	 margin: 10px auto;
+	 padding: 16px;
+	 box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+ }
+</style>
+
+  </head>
+  <body>
+  
+  <main>
+     <h1>HTML Table to Excel jQuery Example </h1>
+  <table id="tableCompany">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Contact</th>
+      <th class='acciones'>Country</th>
+  </tr>    
+  </thead>
+  <tbody>
+    <tr>
+      <td>CodeHim</td>
+      <td id="primero">Maria Anders</td>
+      <td class="acciones">Germany</td>
+    </tr>
+    <tr>
+      <td>Ernst Handel</td>
+      <td>Roland Mendel</td>
+      <td class="acciones">Austria</td>
+    </tr>
+    <tr>
+      <td>Island Trading</td>
+      <td>Helen Bennett</td>
+      <td>UK</td>
+    </tr>
+    <tr id="ultimo">
+      <td>Magazzini Alimentari Riuniti</td>
+      <td>Giovanni Rovelli</td>
+      <td>Italy</td>
+    </tr>
+  </tbody>  
+</table>
+
+ <button class="export-btn"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+
+ </main>
+ 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="js/tableHTMLExport.js"></script>
+  <script>
+  $(document).ready(function(){
+  
+   $(".export-btn").click(function(){
+    
+     $("#tableCompany").tableHTMLExport({
+	    type:'csv',
+		filename:'codehim-html-table-to-excel.csv',
+		});
+ 
+   });
+  
+  });
+  
+  </script>
+
+  </body>
+</html>

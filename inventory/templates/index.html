@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="right_col">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 center-margin">
+            <div class="x_panel">
+                <div class="x_title">
+                    <div>
+                        <h4>This is a test page</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+{{block.super}}
+<script>
+    $(document).ready(function() {
+      
+    });
+</script>
+{% endblock javascripts%}

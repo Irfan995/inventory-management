@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  {% block head %}
+  {% block meta %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endblock meta %}
+
+  <title>Inventory Management | {% block title %}{% endblock %}</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+
+  {% block stylesheets %}
+  <!-- Bootstrap -->
+  <link href="{% static 'vendors/bootstrap-5.0.2/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="{% static 'vendors/fontawesome-5.15.3/css/fontawesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/fontawesome-5.15.3/css/all.css' %}" rel="stylesheet">
+  <!-- Box Icons -->
+  <link href="{% static 'vendors/box-icons/css/boxicons.min.css' %}" rel="stylesheet">
+  <!-- bootstrap-daterangepicker -->
+  <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' %}"
+    rel="stylesheet">
+  <link href="{% static 'vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
+  {% endblock stylesheets %}
+
+  <!-- Custom Theme Style -->
+  <link href="{% static 'custom/css/master.css' %}" rel="stylesheet">
+  <!-- Custom button css -->
+  <!-- <link href="{% static 'custom/css/buttons.css' %}" rel="stylesheet"> -->
+  {% endblock head %}
+</head>
+
+<body class="{% block body_class %}nav-md {% endblock body_class %}">
+  {% block body %}
+  <div class="container body">
+    <div class="main_container">
+
+      {% block sidebar %}
+      <div class="col-md-3 left_col {% block sidebar_class %} {% endblock sidebar_class %}">
+        {% include "sidebar.html" %}
+      </div>
+      {% endblock sidebar %}
+
+      {% block top_navigation %}
+      <div class="top_nav">
+        {% include "top_navigation.html" %}
+      </div>
+      {% endblock top_navigation %}
+
+      {% block content %}
+      <!-- {{ content }} -->
+      {% endblock content %}
+
+      {% block footer %}
+      <footer>
+        {% include "footer.html" %}
+      </footer>
+      {% endblock footer %}
+
+    </div>
+  </div>
+
+  {% block javascripts %}
+  <!-- jQuery -->
+  <script src="{% static 'vendors/jquery-3.5.1/dist/jquery.js' %}"></script>
+  <!-- Popper -->
+  <script src="{% static 'vendors/popper/popper.min.js' %}"></script>
+  <!-- Tooltip -->
+  <script src="{% static 'vendors/tooltip/tooltip.min.js' %}"></script>
+  <!-- Bootstrap -->
+  <script src="{% static 'vendors/bootstrap-5.0.2/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Moment -->
+  <script src="{% static 'vendors/moment-2.27.0/min/moment.min.js' %}"></script>
+  <!-- DateJS -->
+  <script src="{% static 'vendors/DateJS/build/date.js' %}"></script>
+  <!-- bootstrap-daterangepicker -->
+  <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+  <!-- bootstrap-datetimepicker -->
+  <script src="{% static 'vendors/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js' %}"></script>
+  <!-- Box Icons -->
+  <script src="{% static 'vendors/box-icons/dist/boxicons.js' %}"></script>
+
+  <script type="text/javascript">
+    // Form messages
+    function errorMessage(divId, message) {
+      $("#" + divId).empty();
+      $("#" + divId).addClass("alert alert-danger");
+      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Oh Snap! ${message}</p>`);
+    }
+
+    function successMessage(divId, message) {
+      $("#" + divId).empty();
+      $("#" + divId).addClass("alert alert-success");
+      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Well Done! ${message}</p>`);
+    }
+
+    function warningMessage(divId, message) {
+      $("#" + divId).empty();
+      $("#" + divId).addClass("alert alert-warning");
+      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Warning! ${message}</p>`);
+    }
+
+    function infoMessage(divId, message) {
+      $("#" + divId).empty();
+      $("#" + divId).addClass("alert alert-info");
+      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Heads Up! ${message}</p>`);
+    }
+    
+    
+  </script>
+  {% endblock %}
+  <!-- Custom Theme Scripts -->
+  <script src="{% static 'custom/js/master.js' %}"></script>
+  {% endblock body %}
+</body>
+
+</html>
