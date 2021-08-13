@@ -1,9 +1,11 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from .serializers import ProductSerializer
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, CreateView, TemplateView
 from core.models import Product
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from django.db.models import Q
 
 
 # Create your views here.
@@ -13,6 +15,15 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         return Product.objects.all()
+
+
+class AddProductView(TemplateView):
+    template_name = 'products/add_product.html'
+    queryset = Product.objects.all()
+
+
+class ManageStockView(TemplateView):
+    template_name = 'products/manage_stock.html'
 
 
 class FetchProductList(View):
@@ -55,10 +66,10 @@ class FetchProductList(View):
             order_col = '-' + order_col
 
         if search_key:
-            products = Product.objects.filter(Q(day__icontains=search_key) |
-                                                        Q(date__icontains=search_key) |
-                                                        Q(holiday_name__icontains=search_key) |
-                                                        Q(type__icontains=search_key)).order_by(order_col)
+            products = Product.objects.filter(Q(product_name__icontains=search_key) |
+                                                Q(product_code__icontains=search_key) |
+                                                Q(stock_management__unit_price__icontains=search_key) |
+                                                Q(stock_management__stock__icontains=search_key)).order_by(order_col)
             filter_length = products.count()
         else:
             products = Product.objects.all().order_by(order_col)

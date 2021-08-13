@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Manage Stock {% endblock title %}
+
+{% block stylesheets %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'custom/products/css/master.css' %}">
+<link rel="stylesheet" href="{% static 'custom/css/buttons.css' %}">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 center-margin">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>
+                            <span class="fa fa-chevron-left mr-2" aria-hidden="true" data-toggle="tooltip"
+                                data-placement="top" title="Back" onClick="javascript:history.go(-1);"></span>
+                            Add Stock
+                        </h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <fieldset class="custom-legend">    	
+                            <legend><small>Product Stock Informations</small></legend>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Code</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <select class="custom-select form-select" type="text">
+                                        <option value="">-- Select any --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Name</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <select class="custom-select form-select" type="text">
+                                        <option value="">-- Select any --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Category</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <select class="custom-select form-select" type="text">
+                                        <option value="">-- Select any --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Type</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <select class="form-select">
+                                        <option value="">-- Select any --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Size</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <select class="custom-select form-select" type="text">
+                                        <option value="">-- Select any --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Quantity</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <input type="number" class="form-control">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <div class="col-md-4 col-sm-4 offset-md-4">
+                                    <button type="button" class="btn btn-cancel btn-sm" name="button">Cancel</button>
+                                    <button type="button" class="btn btn-success btn-sm" name="button">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>	 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+{{block.super}}
+<script>
+    $(document).ready(function () {
+
+    });
+
+</script>
+{% endblock javascripts%}

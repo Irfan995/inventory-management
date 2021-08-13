@@ -91,26 +91,40 @@
     // Form messages
     function errorMessage(divId, message) {
       $("#" + divId).empty();
-      $("#" + divId).addClass("alert alert-danger");
-      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Oh Snap! ${message}</p>`);
+      $("#" + divId).addClass("alert alert-danger alert-dismissible");
+      $("#" + divId).append(`<i class="fas fa-exclamation-circle fa-lg"></i>`)
+      $("#" + divId).append(`<strong> Oh Snap!</strong> ${message}`);
+      $("#" + divId).append(`<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`);
     }
 
-    function successMessage(divId, message) {
+    function successMessage(divId, message, link, linkMessage) {
       $("#" + divId).empty();
-      $("#" + divId).addClass("alert alert-success");
-      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Well Done! ${message}</p>`);
+      $("#" + divId).addClass("alert alert-success alert-dismissible");
+      $("#" + divId).append(`<i class="fas fa-check-circle fa-lg"></i>`);
+      
+      if (link) {
+        $("#" + divId).append(`<strong> Well Done!</strong> ${message} See <a href="${link}" class="alert-link"> ${linkMessage}. </a>`);
+      } else {
+        $("#" + divId).append(`<strong> Well Done!</strong> ${message}`);
+      }                
+      
+      $("#" + divId).append(`<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`);
     }
 
     function warningMessage(divId, message) {
       $("#" + divId).empty();
-      $("#" + divId).addClass("alert alert-warning");
-      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Warning! ${message}</p>`);
+      $("#" + divId).addClass("alert alert-warning alert-dismissible");
+      $("#" + divId).append(`<i class="fas fa-exclamation-circle fa-lg"></i>`);
+      $("#" + divId).append(`<strong> Warning!</strong> ${message}`);
+      $("#" + divId).append(`<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`);
     }
 
     function infoMessage(divId, message) {
       $("#" + divId).empty();
-      $("#" + divId).addClass("alert alert-info");
-      $("#" + divId).append(`<p class="m-0" id=${divId}-msg>Heads Up! ${message}</p>`);
+      $("#" + divId).addClass("alert alert-info alert-dismissible");
+      $("#" + divId).append(`<i class="fas fa-info-circle fa-lg"></i>`);
+      $("#" + divId).append(`<strong> Heads Up!</strong> ${message}`);
+      $("#" + divId).append(`<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`);
     }
     
     

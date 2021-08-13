@@ -1,20 +1,22 @@
-.btn-sm {
-    outline: none!important;
-    border: 0px solid transparent;
-    box-shadow: none;
-}
-
-button {
-    border: none;
-}
-
-button:active {
-    outline: none;
-    border: none;
-}
-
-button:focus {
-    outline: 0;
+textarea:hover, 
+input:hover, 
+textarea:active, 
+input:active, 
+textarea:focus, 
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+select:focus,
+select:active,
+.btn:active,
+.btn:focus,
+.btn.active
+{
+    outline:none !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
 }
 
 .btn-add {
@@ -27,4 +29,21 @@ button:focus {
     color: white;
     background-color: #2dad50;
     border-color: #2dad50;
+}
+
+.btn-cancel {
+    color: #3d3d3d;
+    background-color: #ededed;
+    border-color: #ededed;
+}
+
+.btn-cancel:hover {
+    color: white;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.icon-btn-add {
+    cursor: pointer;
+    color: #26B99A;
 }

@@ -65,6 +65,11 @@
     $(document).ready(function () {
         productListTableInit('#product-list-table', "{% url 'products:fetch-product-list' %}", getColumnDefinition(), [[0, "asc"]], null);
     });
+    
+    $('#add-product-btn').click(function() {
+        document.location.href = '{% url "products:add-product" %}'
+    })
+    
     // Initialize monthly attendance list datatable
     function productListTableInit(tableIdOrCss, url, columns, sortArr, pageLength) {
         var param = {
