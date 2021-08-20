@@ -106,7 +106,10 @@ class Product(models.Model):
     )
     category = models.CharField(max_length=128, choices=category_choices, null=True, blank=True)
     type = models.ForeignKey('ProductType', related_name='product', on_delete=models.CASCADE, null=True, blank=True)
-    asset = models.IntegerField(null=True, blank=True)
+    asset = models.IntegerField(null=True, blank=True, default=0)
+    total_stock = models.IntegerField(null=True, blank=True, default=0)
+    total_sold = models.IntegerField(null=True, blank=True, default=0)
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.product_name
@@ -117,10 +120,9 @@ class StockManagement(models.Model):
     Stores product stock and manages sold quantity
     """
     product = models.ForeignKey('Product', related_name='stock_management', null=True, blank=True, on_delete=models.CASCADE)
-    stock = models.IntegerField(null=True, blank=True)
+    stock = models.IntegerField(null=True, blank=True, default=0)
     size = models.IntegerField(null=True, blank=True)
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    sold = models.IntegerField(null=True, blank=True)
+    sold = models.IntegerField(null=True, blank=True, default=0)
 
     def __str__(self) -> str:
         return 'Stock of {} : {}'.format(self.product.product_name, self.stock) 
@@ -141,7 +143,8 @@ class ProductManagement(models.Model):
     Store product unique barcode and manages product state
     """
     product = models.ForeignKey('Product', related_name='product_management', null=True, blank=True, on_delete=models.CASCADE)
-    stock_keeping_unit = models.IntegerField(null=True, blank=True)
+    stock_management = models.ForeignKey('StockManagement', related_name='product_management', null=True, blank=True, on_delete=models.CASCADE)
+    stock_keeping_unit = models.CharField(max_length=256,null=True, blank=True)
     bar_code = models.CharField(max_length=128, null=True, blank=True)
     status_choices = (
         ('Not Checked', 'Not Checked'),

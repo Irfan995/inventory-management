@@ -28,59 +28,65 @@
                         <div id="product-add-error-alert" role="alert"></div>
                         <div id="product-add-warning-alert" role="alert"></div>
                         <div id="product-add-info-alert" role="alert"></div>
-                        <fieldset class="custom-legend">    	
+                        <fieldset class="custom-legend">
                             <legend><small>Product Informations</small></legend>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Code</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="product-code">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Name</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="product-name">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Category</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="custom-select form-select" type="text">
-                                        <option value="">-- Select any --</option>
+                                    <select class="custom-select form-select" name="product-category">
+                                        <option value="None">-- Select any --</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Child">Child</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Type</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="form-select">
-                                        <option value="">-- Select any --</option>
+                                    <select class="form-select" name="product-type">
+                                        <option value="None">-- Select any --</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align">Unit Price</label>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Unit Price (৳)</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <input type="number" class="form-control">
+                                    <input type="number" class="form-control" name="product-unit-price">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Size</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <input type="number" class="form-control">
+                                    <input type="number" class="form-control" name="product-size">
                                 </div>
                                 <div class="col-md-3 col-sm-3">
-                                    <i class="fas fa-plus-circle fa-2x mt-1 icon-btn-add" data-toggle="tooltip"
-                                    data-placement="top" title="Add Another"></i>
+                                    <i id="add-size" class="fas fa-plus-circle fa-2x mt-1 icon-btn-add"
+                                        data-toggle="tooltip" data-placement="top" title="Add Another"></i>
                                 </div>
                             </div>
+                            <input type="hidden" name="size-input-count">
+                            <div id="multiple-size-container"></div>
                             <div class="item form-group">
                                 <div class="col-md-4 col-sm-4 offset-md-4">
                                     <button type="button" class="btn btn-cancel btn-sm" name="button">Cancel</button>
-                                    <button type="button" class="btn btn-success btn-sm" name="button">Submit</button>
+                                    <button id="add-product-submit" type="button" class="btn btn-success btn-sm"
+                                        name="button">Submit</button>
                                 </div>
                             </div>
-                        </fieldset>	 
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -93,11 +99,99 @@
 {{block.super}}
 <script>
     $(document).ready(function () {
-        successMessage('product-add-success-alert', 'Successfully added new product.', '{% url "products:product-list" %}', 'Product List');
-        errorMessage('product-add-error-alert', 'Something went wrong.')
-        warningMessage('product-add-warning-alert', 'This is a warning alert.')
-        infoMessage('product-add-info-alert', 'This is an info alert.')
+        $("input[name=size-input-count]").val(0)
+        // successMessage('product-add-success-alert', 'Successfully added new product.', '{% url "products:product-list" %}', 'Product List');
+        // errorMessage('product-add-error-alert', 'Something went wrong.')
+        // warningMessage('product-add-warning-alert', 'This is a warning alert.')
+        // infoMessage('product-add-info-alert', 'This is an info alert.')
+        fetchProductType()
     });
 
+    $("#add-size").click(function () {
+        var sizeDivCount = $("#multiple-size-container > div").length;
+        var sizeInputHtml = `<div class="item form-group size-input" id="size-input-${sizeDivCount + 1}">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align">Size</label>
+                                <div class="col-md-4 col-sm-4">
+                                    <input type="number" class="form-control" name="product-size-${sizeDivCount + 1}">
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <i id="remove-size-input-${sizeDivCount + 1}" onClick="removeDiv(${sizeDivCount + 1})" class="fas fa-minus-circle fa-2x mt-1 icon-btn-remove" data-toggle="tooltip"
+                                    data-placement="top" title="Remove"></i>
+                                </div>
+                            </div>`;
+        $("#multiple-size-container").append(sizeInputHtml);
+        $("input[name=size-input-count]").val(sizeDivCount + 1);
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+
+    function removeDiv(index) {
+        var prevDivCount = $("input[name=size-input-count]").val();
+        $("input[name=size-input-count]").val(prevDivCount - 1);
+        var newDivCount = $("input[name=size-input-count]").val();
+        $("#size-input-" + index).remove();
+        reIndexInput(newDivCount, "size-input-", "size-input")
+        $('[data-toggle="tooltip"], .tooltip').tooltip('hide');
+    }
+
+    function fetchProductType() {
+        $.ajax({
+            type: 'GET',
+            url: '{% url "products:fetch-product-type" %}',
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                if (data.length > 0) {
+                    for (let i = 0; i < data.length; i++) {
+                        $("select[name=product-type]").append(`<option value="${data[i].id}">${data[i].type_name}</option>`);
+                    }
+                }
+            }
+        })
+    }
+
+    $("#add-product-submit").click(function () {
+        var code = $("input[name=product-code]").val();
+        var name = $("input[name=product-name]").val();
+        var category = $("select[name=product-category] option:selected").val();
+        var type = $("select[name=product-type] option:selected").val();
+        var price = $("input[name=product-unit-price").val();
+        var sizeInputCount = $("input[name=size-input-count]").val();
+        var sizeArr = [];
+        var size = $("input[name=product-size]").val()
+        sizeArr.push(size);
+
+        for (let i = 0; i < sizeInputCount; i++) {
+            sizeArr.push($(`input[name=product-size-${i + 1}]`).val());
+        }
+
+        console.log(sizeArr);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "products:submit-product" %}',
+            data: {
+                'code': code,
+                'name': name,
+                'category': category,
+                'type': type,
+                'unit_price': price,
+                'size_list': sizeArr,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 201) {
+                    $("input[name=product-code]").val("");
+                    $("input[name=product-name]").val("");
+                    $("select[name=product-category]").val("None");
+                    $("select[name=product-type]").val("None");
+                    $("input[name=product-unit-price").val("");
+                    $("input[name=product-size]").val("");
+                    $("#multiple-size-container").empty();
+                    successMessage('product-add-success-alert', 'Successfully added new product.', '{% url "products:product-list" %}', 'Product List');
+                }
+            }
+        })
+    })
 </script>
 {% endblock javascripts%}

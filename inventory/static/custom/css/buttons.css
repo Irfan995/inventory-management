@@ -47,3 +47,13 @@ select:active,
     cursor: pointer;
     color: #26B99A;
 }
+
+.icon-btn-remove {
+    cursor: pointer;
+    color: #D50000;
+}
+
+.icon-btn-edit {
+    cursor: pointer;
+    color: #FFBF00;
+}

@@ -14,7 +14,7 @@
         <li><a><i class="fas fa-archive"></i> Inventory <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="{% url 'products:product-list' %}">Products</a></li>
-            <li><a href="#">Product Type</a></li>
+            <li><a href="{% url 'products:product-type-list' %}">Product Type</a></li>
             <li><a href="{% url 'products:manage-stock' %}">Manage Stock</a></li>
           </ul>
         </li>

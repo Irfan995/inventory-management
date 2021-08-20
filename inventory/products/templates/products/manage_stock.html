@@ -6,6 +6,8 @@
 {{block.super}}
 <link rel="stylesheet" href="{% static 'custom/products/css/master.css' %}">
 <link rel="stylesheet" href="{% static 'custom/css/buttons.css' %}">
+<!-- Select2 -->
+<link href="{% static 'vendors/select2-4.0.13/dist/css/select2.min.css' %}" rel="stylesheet">
 {% endblock stylesheets %}
 
 {% block content %}
@@ -24,44 +26,40 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <fieldset class="custom-legend">    	
+                        <div id="stock-add-success-alert" role="alert"></div>
+                        <div id="stock-add-error-alert" role="alert"></div>
+                        <div id="stock-add-warning-alert" role="alert"></div>
+                        <div id="stock-add-info-alert" role="alert"></div>
+                        <fieldset class="custom-legend">
                             <legend><small>Product Stock Informations</small></legend>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Code</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="custom-select form-select" type="text">
-                                        <option value="">-- Select any --</option>
-                                    </select>
+                                    <select class="form-select" type="text" name="product-code"></select>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Name</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="custom-select form-select" type="text">
-                                        <option value="">-- Select any --</option>
-                                    </select>
+                                    <input type="text" class="form-control" disabled name="product-name">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Category</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="custom-select form-select" type="text">
-                                        <option value="">-- Select any --</option>
-                                    </select>
+                                    <input type="text" class="form-control" disabled name="product-category">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Type</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="form-select">
-                                        <option value="">-- Select any --</option>
-                                    </select>
+                                    <input type="text" class="form-control" disabled name="product-type">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Size</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <select class="custom-select form-select" type="text">
+                                    <select class="custom-select form-select" type="text" disabled name="product-size">
                                         <option value="">-- Select any --</option>
                                     </select>
                                 </div>
@@ -69,16 +67,16 @@
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align">Quantity</label>
                                 <div class="col-md-4 col-sm-4">
-                                    <input type="number" class="form-control">
+                                    <input type="number" class="form-control" disabled name="product-quantity">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <div class="col-md-4 col-sm-4 offset-md-4">
                                     <button type="button" class="btn btn-cancel btn-sm" name="button">Cancel</button>
-                                    <button type="button" class="btn btn-success btn-sm" name="button">Submit</button>
+                                    <button id="stock-add-submit-btn" type="button" class="btn btn-success btn-sm" name="button">Submit</button>
                                 </div>
                             </div>
-                        </fieldset>	 
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -89,10 +87,109 @@
 {% endblock %}
 {% block javascripts %}
 {{block.super}}
+<!-- Select2 -->
+<script src="{% static 'vendors/select2-4.0.13/dist/js/select2.min.js' %}"></script>
 <script>
     $(document).ready(function () {
 
     });
+
+    $("select[name='product-code']").select2({
+        ajax: {
+            url: '{% url "products:fetch-product-code" %}',
+            datatype: 'json',
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                }
+
+                return query;
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return { id: item.id, text: item.product_code }
+                    })
+                };
+            }
+        },
+        minimumInputLength: 3,
+        searchInputPlaceholder: 'Product Code',
+        width: '100%',
+        theme: "default"
+    });
+
+    $("select[name='product-code']").change(function () {
+        var productCode = $("select[name='product-code'] option:selected").html();
+        $.ajax({
+            type: 'GET',
+            url: '{% url "products:fetch-product-information" %}',
+            data: {
+                'product_code': productCode
+            },
+            datatype: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    console.log("## ---- Fetch Product Information ---- ## ---- OK ---- ##", data.status);
+                    $("input[name=product-name]").val(data.product_name);
+                    $("input[name=product-category]").val(data.category);
+                    $("input[name=product-type]").val(data.type);
+                    $("select[name=product-size]").prop('disabled', false);
+                    $("input[name=product-quantity]").prop('disabled', false);
+                    for (let i = 0; i < data.size_list.length; i++) {
+                        $("select[name=product-size]").append(`<option value=${data.size_list[i]}>${data.size_list[i]}</option>`)
+                    }
+                }
+
+                if (data.status == 404) {
+                    console.log("## ---- Fetch Product Information ---- ## ---- NOT FOUND ---- ##", data.status);
+                }
+
+                if (data.status == 400) {
+                    console.log("## ---- Fetch Product Information ---- ## ---- BAD REQUEST ---- ##", data.status);
+                }
+            }
+        })
+    })
+
+    $("#stock-add-submit-btn").click(function() {
+        var productCode = $("select[name='product-code'] option:selected").html();
+        var size = $("select[name=product-size] option:selected").val();
+        var quantity = $("input[name=product-quantity]").val();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "products:submit-product-stock" %}',
+            data: {
+                'product_code': productCode,
+                'size': size,
+                'quantity': quantity,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 201) {
+                    console.log("## ---- Stock Submit ---- ## ---- CREATED ---- ##", data.status);
+                    successMessage('stock-add-success-alert', 'Successfully added new product stcok.', '{% url "products:product-list" %}', 'Product List');
+                    $("input[name=product-name]").val("");
+                    $("input[name=product-category]").val("");
+                    $("input[name=product-type]").val("");
+                    $("select[name=product-size]").val("");
+                    $("input[name=product-quantity]").val("");
+                    $("select[name=product-code]").val("");
+                }
+
+                if (data.status == 404) {
+                    console.log("## ---- Stock Submit ---- ## ---- NOT FOUND ---- ##", data.status);
+                }
+
+                if (data.status == 400) {
+                    console.log("## ---- Stock Submit ---- ## ---- BAD REQUEST ---- ##", data.status);
+                }
+            }
+        })
+    })
+
+
 
 </script>
 {% endblock javascripts%}

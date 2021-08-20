@@ -1342,3 +1342,32 @@ div.box {
   font-size: medium;
 }
 
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background-color: #fff;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 4px;
+  min-height: 36px; }
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  /**color: black;**/
+  /* padding-top: 5px; */
+  font-size: 14px; }
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  padding-top: 3px;
+  font-size: 14px; }
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 30px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+  margin-top: 2px;
+  border: none;
+  border-radius: 0;
+  padding: 3px 5px; }
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 1px solid #ccc; }

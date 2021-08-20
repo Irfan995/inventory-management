@@ -126,6 +126,16 @@
       $("#" + divId).append(`<strong> Heads Up!</strong> ${message}`);
       $("#" + divId).append(`<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`);
     }
+
+    function reIndexInput(totalDiv, divIdPrefix, divClass) {
+        var i = 1;
+        $("." + divClass).find(":input").each(function () {
+            var prevName = $(this).attr('name');
+            var newName = $(this).attr('name').replace(prevName, divIdPrefix + i)
+            $(this).attr({ 'name': newName })
+            i++;
+        })
+    }
     
     
   </script>
